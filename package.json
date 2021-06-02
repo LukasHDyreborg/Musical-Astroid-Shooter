@@ -2,7 +2,7 @@
   "name": "musicalastroidshooter",
   "version": "1.0.0",
   "description": "",
-  "main": "index.html",
+  "main": "index.js",
   "scripts": {
     "deploy": "gh-pages -d dist"
   },
@@ -15,7 +15,7 @@
   "bugs": {
     "url": "https://github.com/LukasHDyreborg/Musical-Astroid-Shooter/issues"
   },
-  "homepage": "https://github.com/LukasHDyreborg/Musical-Astroid-Shooter#readme",
+  "homepage": "https://LukasHDyreborg.github.io/Musical-Astroid-Shooter",
   "dependencies": {
     "gh-pages": "^3.2.0"
   }
