@@ -5,6 +5,32 @@ canvas.width = 600;
 canvas.height = 600;
 
 let gameFrame = 0;
+let highScore = 0;
+let score = 0;
+
+//Images
+//The Spaceship
+// https://opengameart.org/content/space-shooter-assets
+const starshipPicture = new Image();
+starshipPicture.src = 'images\spaceship.png';
+
+//Sounds
+//The sound of the laser being fired
+// https://opengameart.org/content/laser-fire
+const laser = document.createElement('audio');
+laser.src = 'sounds\laser6.wav';
+
+//The sound of an astroid being destroyd
+// https://opengameart.org/content/muffled-distant-explosion
+const destroyingAstroid = document.createElement('audio');
+destroyingAstroid.src = 'sounds\NenadSimic - Muffled Distant Explosion.wav';
+
+//The sound of the Spaceship being destroyed
+// https://opengameart.org/content/big-explosion
+const starshipDestroyed = document.createElement('audio');
+starshipDestroyed.src = 'sounds\DeathFlash.flac';
+
+
 
 // move to mouse
 let canvasPosition = canvas.getBoundingClientRect();
@@ -33,9 +59,21 @@ class Starship {
         
         // size of starship
         this.radius = 20;
+
         // direction starship is looking
         this.angle = 0;
         // currently the sarship is a circle but i hope to change it in future
+
+        this.frameX = 0;
+        this.frameY = 0;
+
+        this.frame = 0;
+
+        this.spriteWidth = 237;
+        this.spriteHight = 317;
+
+        this.colision = false;
+        this.starshipDestroyed = 'starshipDestroyed';
     }
 
     update() {
@@ -60,114 +98,116 @@ class Starship {
             ctx.stroke();
         }
 
-        ctx.fillStyle = 'black';
+        ctx.fillStyle = 'white';
         ctx.beginPath();
         ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
         ctx.fill();
         ctx.closePath();
+
+        
+        starshipPicture.onload = function() {
+            ctx.drawImage(starshipPicture, 0, 0, this.spriteWidth, this.spriteHight, this.x, this.y, this.spriteWidth, this.spriteHight);
+        }
+        
     }
 }
 
 const starship = new Starship();
 
 // astroid
+
 const astroidArray = [];
 
-class TopAstroid {
-    
+class Astroid {
     constructor() {
-        this.x = Math.random() * canvas.width;
-        this.y = 0 - Math.random() * canvas.height;
         this.radius = 50;
         this.speed = Math.random() * 4 + 1;
-        this.distance;
+        this.direction = Math.random() * 2 - 1;
+        this.destroyingAstroid = 'destroyingAstroid';
+        this.starshipDistance;
+        this.shot = false;
+        this.color = 'red';
+        
     }
 
     update() {
+        const starshipDistanceX = this.x - starship.x;
+        const starshipDistanceY = this.y - starship.y;
+        this.starshipDistance = Math.sqrt(starshipDistanceX * starshipDistanceY + starshipDistanceY * starshipDistanceY);
+
+        
+    }
+
+    draw() {
+        ctx.fillStyle = this.color;
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.closePath();
+        ctx.stroke();
+    }
+}
+
+class TopAstroid extends Astroid{
+    
+    constructor() {
+        super();
+        this.x = Math.random() * canvas.width;
+        this.y = 0 - 100;
+    }
+
+    update() {
+        super.update();
         this.y += this.speed;
-    }
-
-    draw() {
-        ctx.fillStyle = 'red';
-        ctx.beginPath();
-        ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-        ctx.fill();
-        ctx.closePath();
-        ctx.stroke();
+        this.x += this.direction;
     }
 }
 
-class LeftAstroid {
+class LeftAstroid extends Astroid{
     
     constructor() {
-        this.x = 0 - Math.random() * canvas.width;
+        super();
+        this.x = 0 - 100;
         this.y = Math.random() * canvas.height;
-        this.radius = 50;
-        this.speed = Math.random() * 4 + 1;
-        this.distance;
     }
 
     update() {
+        super.update();
         this.x += this.speed;
-    }
-
-    draw() {
-        ctx.fillStyle = 'blue';
-        ctx.beginPath();
-        ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-        ctx.fill();
-        ctx.closePath();
-        ctx.stroke();
+        this.y += this.direction;
     }
 }
 
-class RightAstroid {
+class RightAstroid extends Astroid{
     
     constructor() {
-        this.x = canvas.width + Math.random() * canvas.width;
+        super();
+        this.x = canvas.width + 100;
         this.y = Math.random() * canvas.height;
-        this.radius = 50;
-        this.speed = Math.random() * 4 + 1;
-        this.distance;
     }
 
     update() {
+        super.update();
         this.x -= this.speed;
-    }
-
-    draw() {
-        ctx.fillStyle = 'green';
-        ctx.beginPath();
-        ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-        ctx.fill();
-        ctx.closePath();
-        ctx.stroke();
+        this.y -= this.direction;
     }
 }
 
-class BottomAstroid {
+class BottomAstroid extends Astroid{
     
     constructor() {
+        super();
         this.x = Math.random() * canvas.width;
-        this.y = canvas.height + Math.random() * canvas.height;
-        this.radius = 50;
-        this.speed = Math.random() * 4 + 1;
-        this.distance;
+        this.y = canvas.height + 100;
     }
 
     update() {
+        super.update();
         this.y -= this.speed;
-    }
-
-    draw() {
-        ctx.fillStyle = 'yellow';
-        ctx.beginPath();
-        ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-        ctx.fill();
-        ctx.closePath();
-        ctx.stroke();
+        this.x -= this.direction;
     }
 }
+
 
 function handleAstroid() {
     if (gameFrame % 50 == 0) {
@@ -190,10 +230,60 @@ function handleAstroid() {
     
         console.log(astroidArray.length);
     }
+
     for (let i = 0; i < astroidArray.length; i++) {
         astroidArray[i].update();
         astroidArray[i].draw();
+
+        
     }
+
+    // i use a second loop so the astroids don't blink when one is deleted
+    for (let i = 0; i < astroidArray.length; i++) {
+
+        /*
+        // we remove the shot astroid
+        if (astroidArray[i].shot == true) {
+            astroidArray.splice(i, 1);
+        }
+        */
+
+        if (astroidArray[i] instanceof TopAstroid) {
+            if (astroidArray[i].y > 700) {
+                astroidArray.splice(i, 1);
+                score++;
+            }
+        }
+        else if (astroidArray[i] instanceof RightAstroid) {
+            if (astroidArray[i].x < -100) {
+                astroidArray.splice(i, 1);
+                score++;
+            }
+        }
+        else if (astroidArray[i] instanceof LeftAstroid) {
+            if (astroidArray[i].x > 700) {
+                astroidArray.splice(i, 1);
+                score++;
+            }
+        }
+        
+        else if (astroidArray[i] instanceof BottomAstroid) {
+            if (astroidArray[i].y < -100) {
+                astroidArray.splice(i, 1);
+                score++;
+            }
+        }
+
+        if (astroidArray[i].starshipDistance < astroidArray[i].radius + starship.radius) {
+            astroidArray[i].shot = 'true';
+            console.log('collision');
+            Starship.colision = true;
+        }
+    }
+}
+
+function handleShot() {
+
 }
 
 // shoot
@@ -203,7 +293,6 @@ class Shot {
 
 // colision of shot with astroids
 // colision af astroid and player
-// score
 
 // Animation loop
 function animate() {
@@ -211,6 +300,9 @@ function animate() {
     handleAstroid();
     starship.update();
     starship.draw();
+    ctx.fillStyle = 'white';
+    ctx.fillText('High Score: ' + highScore, 10, 30);
+    ctx.fillText('Score: ' + score, 10, 50);
     gameFrame++;
     requestAnimationFrame(animate)
 }
