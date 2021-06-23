@@ -17,7 +17,7 @@ let spaceshipAlive = false;
 //The Spaceship
 // https://opengameart.org/content/space-shooter-assets
 const spaceshipPicture = new Image();
-spaceshipPicture.src = '../images/spaceship.png';
+spaceshipPicture.src = https://LukasHDyreborg.github.io/Musical-Astroid-Shooter/;
 
 //The astroids
 // https://opengameart.org/content/space-shooter-assets
