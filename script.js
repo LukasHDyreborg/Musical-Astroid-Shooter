@@ -17,12 +17,12 @@ let spaceshipAlive = false;
 //The Spaceship
 // https://opengameart.org/content/space-shooter-assets
 const spaceshipPicture = new Image();
-spaceshipPicture.src = 'images\spaceship.png';
+spaceshipPicture.src = '..\images\spaceship.png';
 
 //The astroids
 // https://opengameart.org/content/space-shooter-assets
 const astroidPicture = new Image();
-astroidPicture.src = 'images\astroid.png';
+astroidPicture.src = '..\images\astroid.png';
 
 //Sounds
 //The sound of the laser being fired
