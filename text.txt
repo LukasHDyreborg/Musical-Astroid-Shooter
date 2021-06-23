@@ -1,0 +1,60 @@
+Features
+    Astroids
+        Spawn
+            from all 4 sides (done)
+            different sizes
+
+        Move
+            straight (done)
+            Curved
+            Rotate (done)
+        
+        Despawn
+            +1 score (done)
+
+        Destroyed
+            sound
+            score
+
+    Background
+        Picture
+        background music
+
+    Spaceship
+        
+        Movement (Done)
+            Maybe insert a border for the spaceship?
+            Rotate (done)
+        
+        Colision with Astroid
+            Destruction of spaceship
+                Sound
+        
+        Shoot
+            sound
+            animation
+
+    Shot
+        Spawn
+        movement
+        colision with astroids
+    
+    Score
+        when a astroid despawns (done)
+        or per amount of time
+
+        when a astroid is destroyed
+
+    highscore
+        a way to keep the highscore 
+        a sound if your score becomes higher than the highscore
+        set as highscore if score is higher than highscore
+
+    Menu
+        gameover
+        start new game
+        music
+
+Bugs
+    Spaceship sprite rotates slightly after having stood still for a little while
+    Can fly faster than the shots
