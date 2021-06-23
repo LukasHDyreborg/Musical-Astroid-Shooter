@@ -31,7 +31,7 @@ const laser = new Audio('sounds\laser6.wav');
 
 //The sound of an astroid being destroyd
 // https://opengameart.org/content/muffled-distant-explosion
-const destroyingAstroid = new Audio('sounds/NenadSimic - Muffled Distant Explosion.wav');
+const destroyingAstroid = new Audio('...\sounds\NenadSimic - Muffled Distant Explosion.wav');
 
 //The sound of the Spaceship being destroyed
 // https://opengameart.org/content/big-explosion
