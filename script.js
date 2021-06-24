@@ -384,38 +384,31 @@ const spaceship = new Spaceship();
 
 // Animation loop
 function animate() {
-    if (spaceshipAlive == true) {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        gameFrame++;
-                
-        handleShot();
-        handleAstroid();
-                
-        spaceshipHandler();
-                
-        ctx.fillStyle = 'white';
-        ctx.fillText('High Score: ' + highScore, 10, 30);
-        ctx.fillText('Score: ' + score, 10, 50);
-                
-        requestAnimationFrame(animate);
-    }
-    else {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    if (spaceshipAlive == false) {
         gameHandler();
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
         gameFrame = -1;
-                
-        handleShot();
-        handleAstroid();
-                
-        spaceshipHandler();
-                
-        ctx.fillStyle = 'white';
-        ctx.fillText('High Score: ' + highScore, 10, 30);
-        ctx.fillText('Score: ' + tempScore, 10, 50);
-                
-        requestAnimationFrame(animate);
+    } 
+    else {
+        gameFrame++;
     }
     
+    handleShot();
+    handleAstroid();
+                
+    spaceshipHandler();
+                
+    ctx.fillStyle = 'white';
+    ctx.fillText('High Score: ' + highScore, 10, 30);
+
+    if (spaceshipAlive == false) {
+        ctx.fillText('Score: ' + tempScore, 10, 50);
+    } 
+    else {
+        ctx.fillText('Score: ' + score, 10, 50);
+    }
+
+    requestAnimationFrame(animate);
 }
 
 animate();
